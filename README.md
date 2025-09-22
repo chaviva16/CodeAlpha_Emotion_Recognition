@@ -9,10 +9,15 @@ Live Demo ( https://voicemood.streamlit.app/ )
 ##  Features
 
 Emotion Detection	Recognizes one of 8 emotions from speech audio.
+
 Data Augmentation	Boosted robustness via noise/pitch/speed changes during training.
+
 Class Balancing	Gives more weight to underrepresented emotions.
+
 Prediction Confidence	Shows probability scores for each emotion.
+
 Fast Processing	Clips audio to 4 seconds, uses optimized loading to prevent lag.
+
 Clean UI	Intuitive design with emojis and easy file upload.
 
 ## Model Details
