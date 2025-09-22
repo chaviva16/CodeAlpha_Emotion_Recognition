@@ -32,6 +32,24 @@ Final test accuracy: ~75%
 
 Weak emotions: Neutral & Happy show more confusion due to overlapping audio features
 
+##  Model Evaluation
+
+To evaluate the performance of the Speech Emotion Recognition model, we plotted a confusion matrix using the test dataset.
+
+## Observations
+
+The model performs very well on emotions like Angry, Disgust, Fearful, and Surprised, with high correct classifications.
+
+Some emotions show confusion due to acoustic similarity:
+
+Happy ↔ Neutral: Happy samples are often predicted as neutral.
+
+Calm ↔ Sad: Calm voices are sometimes misclassified as sad.
+
+This reflects a common challenge in speech emotion recognition, where subtle differences between emotions can confuse both machines and humans.
+
+Despite these challenges, the best CNN model achieves an overall test accuracy of ~74%. This shows that the model successfully learned meaningful emotional features from the audio data, but future improvements (e.g., more data, augmentation, advanced architectures) could increase performance further.
+
 ## Challenges & Limitations
 
 The dataset is somewhat small; some emotions such as Neutral and Happy tend to be more confused by the model.
