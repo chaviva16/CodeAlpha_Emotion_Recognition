@@ -4,4 +4,4 @@ librosa
 tensorflow
 scikit-learn
 soundfile
-
+pandas
