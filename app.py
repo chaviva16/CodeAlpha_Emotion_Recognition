@@ -24,8 +24,12 @@ model, le = load_model_and_encoder()
 # 🔍 Show loaded classes for debugging
 # =========================
 st.sidebar.title("🔎 Debug Info")
-st.sidebar.write("### Loaded Classes (from Label Encoder):")
-st.sidebar.write(list(le.classes_))
+
+# Show loaded classes
+st.sidebar.write("Loaded Classes:", list(le.classes_))
+
+# Show model output shape
+st.sidebar.write("Model Output Shape:", model.output_shape)
 
 # =========================
 # 📌 MFCC Feature Extraction
