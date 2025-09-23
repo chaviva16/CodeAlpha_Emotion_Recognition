@@ -20,32 +20,25 @@ def load_model_and_encoder():
     return model, le
 
 model, le = load_model_and_encoder()
-# =========================
-# 🔍 Show loaded classes for debugging
-# =========================
-st.sidebar.title("🔎 Debug Info")
 
-# Show loaded classes
-st.sidebar.write("Loaded Classes:", list(le.classes_))
-
-# Show model output shape
-st.sidebar.write("Model Output Shape:", model.output_shape)
 
 # =========================
 # 📌 MFCC Feature Extraction
 # =========================
 def extract_features(file_path, max_pad_len=174, n_mfcc=40):
-    audio, sample_rate = librosa.load(file_path, sr=None)
-    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=n_mfcc)
+    # Match training: use kaiser_fast resampling
+    audio, sample_rate = librosa.load(file_path, res_type="kaiser_fast")
     
-    # Pad or truncate
+    mfccs = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=n_mfcc)
+
+    # Pad or truncate to fixed length
     if mfccs.shape[1] < max_pad_len:
         pad_width = max_pad_len - mfccs.shape[1]
         mfccs = np.pad(mfccs, pad_width=((0,0),(0,pad_width)), mode="constant")
     else:
         mfccs = mfccs[:, :max_pad_len]
-    
-    return mfccs[..., np.newaxis]  # shape -> (40, 174, 1)
+
+    return mfccs[..., np.newaxis]  # shape (40,174,1)
 
 # =========================
 # 📌 Prediction Function
