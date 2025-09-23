@@ -3,6 +3,7 @@ import numpy as np
 import librosa
 import pickle
 from tensorflow.keras.models import load_model
+import threading
 
 # =========================
 # 🎨 Page Config
@@ -14,12 +15,19 @@ st.set_page_config(page_title="Speech Emotion Recognition", page_icon="🎤", la
 # =========================
 @st.cache_resource
 def load_model_and_encoder():
-    model = load_model("best_emotion_model.keras")  # new improved model
+    model = load_model("best_emotion_model.keras")  
     with open("label_encoder.pkl", "rb") as f:
         le = pickle.load(f)
     return model, le
 
 model, le = load_model_and_encoder()
+
+# =========================
+# 🔍 Show loaded classes for debugging
+# =========================
+st.sidebar.title("🔎 Debug Info")
+st.sidebar.write("### Loaded Classes (from Label Encoder):")
+st.sidebar.write(list(le.classes_))
 
 # =========================
 # 📌 MFCC Feature Extraction
@@ -52,7 +60,7 @@ def predict_emotion(file_path):
 # 🎤 Streamlit UI
 # =========================
 st.title("🎤 Speech Emotion Recognition App")
-st.write("Upload a short `.wav` file (3–4 seconds) and let the model detect the emotion.")
+st.write("Upload a short `.wav` file (3–4 seconds)")
 
 uploaded_file = st.file_uploader("📂 Choose an audio file", type=["wav"])
 
@@ -63,10 +71,21 @@ if uploaded_file is not None:
     
     st.audio(temp_path, format="audio/wav")
     
-    with st.spinner("🔍 Analyzing audio..."):
+    result = {}
+    def run_prediction():
         emotion, probabilities = predict_emotion(temp_path)
+        result['emotion'] = emotion
+        result['probabilities'] = probabilities
 
-    # Emojis for emotions
+    thread = threading.Thread(target=run_prediction)
+    thread.start()
+
+    with st.spinner("🔍 Analyzing audio..."):
+        thread.join()
+
+    emotion = result['emotion']
+    probabilities = result['probabilities']
+
     emotion_icons = {
         "neutral": "😐",
         "calm": "😌",
@@ -79,10 +98,6 @@ if uploaded_file is not None:
     }
     icon = emotion_icons.get(emotion, "❓")
     
-    # Show results
     st.success(f"### Predicted Emotion: {icon} {emotion.capitalize()}")
-    
-    # Show confidence
     st.subheader("Prediction Confidence")
-    prob_dict = dict(zip(le.classes_, probabilities))
-    st.bar_chart(prob_dict)
+    st.bar_chart(dict(zip(le.classes_, probabilities)))
