@@ -1,75 +1,119 @@
 ## Emotion Recognition App
 
-Emotion Recognition is a web app that detects the emotion conveyed in uploaded speech audio files.
-It uses a deep learning model (CNN) trained with the RAVDESS dataset and enriched with data augmentation & class weighting to improve performance and robustness. 
-Simply upload a .wav file and let the app tell you what emotion it hears — Neutral, Calm, Happy, Sad, Angry, Fearful, Disgust, or Surprised.
+Emotion Recognition is a web app that detects the emotion conveyed in uploaded speech audio files. It uses a deep learning model (CNN) trained with RAVDESS, TESS, and CREMA-D datasets. The model was further improved with data augmentation and class balancing, leading to strong performance in recognizing emotions like Neutral, Happy, Sad, Angry, Fearful, Disgust, and Surprised.
 
-Live Demo ( https://voicemood.streamlit.app/ )
+👉 Live Demo: https://voicemood.streamlit.app/
 
-##  Features
+## Features
 
-Emotion Detection	Recognizes one of 8 emotions from speech audio.
+Emotion Detection – Recognizes one of 7 emotions from speech audio.
 
-Data Augmentation	Boosted robustness via noise/pitch/speed changes during training.
+Data Augmentation – Robustness improved via noise, pitch, and speed transformations.
 
-Class Balancing	Gives more weight to underrepresented emotions.
+Class Balancing – Prevents bias toward overrepresented emotions.
 
-Prediction Confidence	Shows probability scores for each emotion.
+ Prediction Confidence – Displays probability scores for each emotion.
 
-Fast Processing	Clips audio to 4 seconds, uses optimized loading to prevent lag.
+Fast Processing – Optimized for 3–4s audio clips to reduce lag.
 
-Clean UI	Intuitive design with emojis and easy file upload.
+ Clean UI – Intuitive design with emojis and file upload.
 
-## Model Details
+
+## Model Development Journey
+
+Baseline Model (RAVDESS only)
 
 Dataset: RAVDESS (Actors 01–24, 8 emotions)
 
-Input features: MFCC (40 coefficients) with fixed time dimension (padding/truncate)
+Architecture: Basic CNN with MFCC features (40 coefficients).
 
-Model architecture: Convolutional Neural Network (CNN) with augmentation & class weighting
+Accuracy: ~75%
 
-Final test accuracy: ~75%
+Weaknesses: Struggled with overlapping classes (Happy ↔ Neutral, Calm ↔ Sad).
 
-Weak emotions: Neutral & Happy show more confusion due to overlapping audio features
+
+## Improvements
+
+ Added data augmentation (noise, pitch, speed, shift).
+
+ Applied class weighting to balance minority emotions.
+
+Helped reduce bias but accuracy stayed ~75%.
+
+Extended Training (Multi-dataset)
+
+Added TESS and CREMA-D datasets.
+
+Now trained on thousands more samples → much more robust.
+
+Final Accuracy: ~81% 
+
 
 ##  Model Evaluation
+Confusion Matrix Observations
 
-To evaluate the performance of the Speech Emotion Recognition model, we plotted a confusion matrix using the test dataset.
+High performance on Angry, Disgust, Fearful, Surprised.
 
-## Observations
+⚠️ Overlaps remain:
 
-The model performs very well on emotions like Angry, Disgust, Fearful, and Surprised, with high correct classifications.
+Happy ↔ Neutral → model sometimes confuses cheerful voices with neutral ones.
 
-Some emotions show confusion due to acoustic similarity:
+Calm ↔ Sad → calm tones misread as sadness.
 
-Happy ↔ Neutral: Happy samples are often predicted as neutral.
+This reflects a real-world challenge: subtle emotions are difficult even for humans.
 
-Calm ↔ Sad: Calm voices are sometimes misclassified as sad.
-
-This reflects a common challenge in speech emotion recognition, where subtle differences between emotions can confuse both machines and humans.
-
-Despite these challenges, the best CNN model achieves an overall test accuracy of ~74%. This shows that the model successfully learned meaningful emotional features from the audio data, but future improvements (e.g., more data, augmentation, advanced architectures) could increase performance further.
 
 ## Challenges & Limitations
 
-The dataset is somewhat small; some emotions such as Neutral and Happy tend to be more confused by the model.
+Dataset is still relatively small compared to large-scale benchmarks.
 
-Predictions are based purely on audio; no visual cues (face, gesture) or text tone are considered.
+Predictions rely only on audio (no facial or text cues).
 
-If the uploaded audio is longer than 4 seconds, the app only analyzes the first 4 seconds. This might occasionally cut off emotional cues.
+Longer audios are clipped at 4s → might miss late emotional cues.
+
 
 ## Future Work
 
-Experiment with CNN + BiLSTM / transfer learning (e.g., wav2vec) to improve performance.
+Try CNN + BiLSTM or transformer-based approaches (e.g., wav2vec).
 
-Add more audio features: e.g., spectral contrast, chroma, zero-crossing rate.
+Use richer features (spectral contrast, chroma, zero-crossing rate).
 
-Expand model training on bigger or more varied datasets for better generalization.
+Train on larger, more varied emotion datasets.
 
-Add a batch testing mode to allow evaluation of multiple files at once.
+Add batch testing mode for multiple files at once.
+
+
+##  Dataset Sources
+
+RAVDESS – Ryerson Audio-Visual Database of Emotional Speech and Song
+
+ TESS – Toronto Emotional Speech Set
+
+ CREMA-D – Crowd-Sourced Emotional Multimodal Actors Dataset
+
+
+## Tech Stack
+
+Frameworks: TensorFlow / Keras, librosa, Streamlit
+
+Features: MFCC (40 coefficients), padded/truncated to fixed length
+
+Deployment: Streamlit Cloud
+
+
+## Results
+
+Initial RAVDESS-only model: ~75% accuracy
+
+Improved with augmentation + class balancing: still ~75%
+
+Final CNN with RAVDESS + TESS + CREMA-D: ~81% accuracy 
+
 
 ## Credits
 
-Dataset: RAVDESS
+Datasets: RAVDESS, TESS, CREMA-D
 
-Thanks to open-source libraries: TensorFlow / Keras, librosa, streamlit
+Libraries: TensorFlow, Keras, librosa, Streamlit
+
+Special thanks to the open source community 💙.
