@@ -27,7 +27,7 @@ Dataset: RAVDESS (Actors 01–24, 8 emotions)
 
 Architecture: Basic CNN with MFCC features (40 coefficients).
 
-Accuracy: ~75%
+Accuracy: ~74%
 
 Weaknesses: Struggled with overlapping classes (Happy ↔ Neutral, Calm ↔ Sad).
 
@@ -38,7 +38,7 @@ Weaknesses: Struggled with overlapping classes (Happy ↔ Neutral, Calm ↔ Sad)
 
  Applied class weighting to balance minority emotions.
 
-Helped reduce bias but accuracy stayed ~75%.
+Helped reduce bias but accuracy stayed ~74%.
 
 Extended Training (Multi-dataset)
 
@@ -103,9 +103,9 @@ Deployment: Streamlit Cloud
 
 ## Results
 
-Initial RAVDESS-only model: ~75% accuracy
+Initial RAVDESS-only model: ~64% accuracy
 
-Improved with augmentation + class balancing: still ~75%
+Improved with augmentation + class balancing: ~74%
 
 Final CNN with RAVDESS + TESS + CREMA-D: ~81% accuracy 
 
