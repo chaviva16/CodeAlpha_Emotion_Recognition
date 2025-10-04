@@ -60,12 +60,12 @@ Happy ↔ Neutral → model sometimes confuses cheerful voices with neutral ones
 
 Calm ↔ Sad → calm tones misread as sadness.
 
-This reflects a real-world challenge: subtle emotions are difficult even for humans.
+This reflects a real world challenge: subtle emotions are difficult even for humans.
 
 
 ## Challenges & Limitations
 
-Dataset is still relatively small compared to large-scale benchmarks.
+Dataset is still relatively small compared to large scale benchmarks.
 
 Predictions rely only on audio (no facial or text cues).
 
@@ -74,7 +74,7 @@ Longer audios are clipped at 4s → might miss late emotional cues.
 
 ## Future Work
 
-Try CNN + BiLSTM or transformer-based approaches (e.g., wav2vec).
+Try CNN + BiLSTM or transformer based approaches (e.g., wav2vec).
 
 Use richer features (spectral contrast, chroma, zero-crossing rate).
 
@@ -85,11 +85,11 @@ Add batch testing mode for multiple files at once.
 
 ##  Dataset Sources
 
-RAVDESS – Ryerson Audio-Visual Database of Emotional Speech and Song
+RAVDESS – Ryerson Audio Visual Database of Emotional Speech and Song
 
  TESS – Toronto Emotional Speech Set
 
- CREMA-D – Crowd-Sourced Emotional Multimodal Actors Dataset
+ CREMA-D – Crowd Sourced Emotional Multimodal Actors Dataset
 
 
 ## Tech Stack
